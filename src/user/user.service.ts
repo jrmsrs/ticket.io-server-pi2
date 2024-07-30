@@ -2,19 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { Message } from './entities/message.entity';
 import { CreateUserDTO } from './dto/user.dto';
+import { supabase } from 'src/db.config';
 
 @Injectable()
 export class UserService {
   // get all users
-  getUsers(): User[] {
-    return [
-      {
-        id: 'abcdidgaf' + Date.now(),
-        name: 'José Aindanaoexiste Nobanco',
-        email: 'jose@email.com',
-        cpf: '14231254311',
-      },
-    ];
+  async findAll(): Promise<any[]> {
+    const { data, error } = await supabase.from('user').select('*');
+
+    if (error) throw new Error(error.message);
+    return data;
   }
 
   // add user
@@ -28,7 +25,7 @@ export class UserService {
   }
 
   // get user by id
-  getUser(id: string): User {
+  getUser(id: string) {
     return {
       id,
       name: 'José Aindanaoexiste Nobanco',
