@@ -7,7 +7,7 @@ import {
   Put,
   Delete,
 } from '@nestjs/common'; // Put, Delete
-import { UserService } from './user.service';
+import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
 import { Message } from './entities/message.entity';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
@@ -15,8 +15,8 @@ import { CreateUserDTO } from './dto/user.dto';
 
 @ApiTags('Users')
 @Controller()
-export class UserController {
-  constructor(private readonly appService: UserService) {}
+export class UsersController {
+  constructor(private readonly appService: UsersService) {}
 
   @Get('/users')
   @ApiResponse({ status: 200, isArray: true, type: User })

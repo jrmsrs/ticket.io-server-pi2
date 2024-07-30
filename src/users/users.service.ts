@@ -3,7 +3,7 @@ import { CreateUserDTO } from './dto/user.dto';
 import { supabase as sb } from '../db.config';
 
 @Injectable()
-export class UserService {
+export class UsersService {
   async findAll() {
     const { data, error } = await sb.from('user').select('*');
 
