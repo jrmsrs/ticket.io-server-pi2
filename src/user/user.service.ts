@@ -1,56 +1,58 @@
 import { Injectable } from '@nestjs/common';
-import { User } from './entities/user.entity';
-import { Message } from './entities/message.entity';
 import { CreateUserDTO } from './dto/user.dto';
-import { supabase } from 'src/db.config';
+import { supabase as sb } from '../db.config';
 
 @Injectable()
 export class UserService {
-  // get all users
-  async findAll(): Promise<any[]> {
-    const { data, error } = await supabase.from('user').select('*');
+  async findAll() {
+    const { data, error } = await sb.from('user').select('*');
 
     if (error) throw new Error(error.message);
-    return data;
-  }
-
-  // add user
-  postUser(user: CreateUserDTO): Message {
     return {
-      message:
-        'sucesso! usuario\n' +
-        JSON.stringify(user) +
-        '\nnao foi inserido pq nao funfa ainda',
+      message: 'dados dos users',
+      results: data,
     };
   }
 
-  // get user by id
-  getUser(id: string) {
+  async create(user: CreateUserDTO) {
+    const { data, error } = await sb.from('user').insert(user).select();
+
+    if (error) throw new Error(error.message);
     return {
-      id,
-      name: 'José Aindanaoexiste Nobanco',
-      email: 'jose@email.com',
-      cpf: '14231254311',
+      message: 'user inserido',
+      id: data[0].id,
     };
   }
 
-  // update user by id
-  updateUser(id: string, user: CreateUserDTO): Message {
+  async findOne(id: string) {
+    const { data, error } = await sb.from('user').select().eq('id', id);
+
+    if (error) throw new Error(error.message);
     return {
-      message:
-        'successo! usuario ' +
-        JSON.stringify({ id, ...user }) +
-        ' nao foi atualizado pq nao funfa ainda',
+      message: 'dados do user',
+      results: data,
     };
   }
 
-  // delete user by id
-  deleteUser(id: string): Message {
+  async update(id: string, upData: CreateUserDTO) {
+    const { count, error } = await sb.from('user').update(upData).eq('id', id);
+
+    if (error) throw new Error(error.message);
+    if (!count) throw new Error('user não existe');
+
     return {
-      message:
-        'success! usuario id = ' +
-        id +
-        ' nao foi deletado e nem existe pq nao funfa ainda',
+      message: `user com ID=${id} alterado com sucesso.`,
+    };
+  }
+
+  async remove(id: string) {
+    const { error, count } = await sb.from('user').delete().eq('id', id);
+
+    if (error) throw new Error(error.message);
+    if (!count) throw new Error('user não existe');
+
+    return {
+      message: `user com ID=${id} removido com sucesso.`,
     };
   }
 }

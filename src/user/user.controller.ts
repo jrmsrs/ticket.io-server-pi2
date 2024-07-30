@@ -20,35 +20,35 @@ export class UserController {
 
   @Get('/users')
   @ApiResponse({ status: 200, isArray: true, type: User })
-  async getUsers(): Promise<User[]> {
+  async getUsers() {
     return this.appService.findAll(); // handle in user.service
   }
 
   // add user
   @Post('/users')
   @ApiResponse({ status: 200, type: Message })
-  postUser(@Body() user: CreateUserDTO): Message {
-    return this.appService.postUser(user);
+  postUser(@Body() user: CreateUserDTO) {
+    return this.appService.create(user);
   }
 
   // get user by id
   @Get('/users/:id')
   @ApiResponse({ status: 200, type: User })
-  getUser(@Param('id') id: string) {
-    return this.appService.getUser(id);
+  async getUser(@Param('id') id: string) {
+    return this.appService.findOne(id);
   }
 
   // update user by id
   @Put('/users/:id')
   @ApiResponse({ status: 200, type: Message })
-  updateUser(@Param('id') id: string, @Body() user: CreateUserDTO): Message {
-    return this.appService.updateUser(id, user);
+  async updateUser(@Param('id') id: string, @Body() user: CreateUserDTO) {
+    return this.appService.update(id, user);
   }
 
   // delete user by id
   @Delete('/users/:id')
   @ApiResponse({ status: 200, type: Message })
-  deleteUser(@Param('id') id: string): Message {
-    return this.appService.deleteUser(id);
+  async deleteUser(@Param('id') id: string) {
+    return this.appService.remove(id);
   }
 }
