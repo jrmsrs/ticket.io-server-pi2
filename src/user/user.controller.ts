@@ -8,8 +8,8 @@ import {
   Delete,
 } from '@nestjs/common'; // Put, Delete
 import { UserService } from './user.service';
-import { User } from './entities/user.schema';
-import { Message } from './entities/message.schema';
+import { User } from './entities/user.entity';
+import { Message } from './entities/message.entity';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
 import { CreateUserDTO } from './dto/user.dto';
 

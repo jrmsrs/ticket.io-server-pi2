@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { User } from './entities/user.schema';
-import { Message } from './entities/message.schema';
+import { User } from './entities/user.entity';
+import { Message } from './entities/message.entity';
 import { CreateUserDTO } from './dto/user.dto';
 
 @Injectable()
