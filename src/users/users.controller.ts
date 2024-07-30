@@ -6,7 +6,7 @@ import {
   Post,
   Put,
   Delete,
-} from '@nestjs/common'; // Put, Delete
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
 import { Message } from './entities/message.entity';
@@ -18,35 +18,31 @@ import { CreateUserDTO } from './dto/user.dto';
 export class UsersController {
   constructor(private readonly appService: UsersService) {}
 
-  @Get('/users')
+  @Get('/user')
   @ApiResponse({ status: 200, isArray: true, type: User })
   async getUsers() {
     return this.appService.findAll(); // handle in user.service
   }
 
-  // add user
-  @Post('/users')
+  @Post('/user')
   @ApiResponse({ status: 200, type: Message })
   postUser(@Body() user: CreateUserDTO) {
     return this.appService.create(user);
   }
 
-  // get user by id
-  @Get('/users/:id')
+  @Get('/user/:id')
   @ApiResponse({ status: 200, type: User })
   async getUser(@Param('id') id: string) {
     return this.appService.findOne(id);
   }
 
-  // update user by id
-  @Put('/users/:id')
+  @Put('/user/:id')
   @ApiResponse({ status: 200, type: Message })
   async updateUser(@Param('id') id: string, @Body() user: CreateUserDTO) {
     return this.appService.update(id, user);
   }
 
-  // delete user by id
-  @Delete('/users/:id')
+  @Delete('/user/:id')
   @ApiResponse({ status: 200, type: Message })
   async deleteUser(@Param('id') id: string) {
     return this.appService.remove(id);
