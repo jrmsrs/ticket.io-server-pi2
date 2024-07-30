@@ -20,8 +20,8 @@ export class UserController {
 
   @Get('/users')
   @ApiResponse({ status: 200, isArray: true, type: User })
-  getUsers(): User[] {
-    return this.appService.getUsers(); // handle in user.service
+  async getUsers(): Promise<User[]> {
+    return this.appService.findAll(); // handle in user.service
   }
 
   // add user
@@ -34,7 +34,7 @@ export class UserController {
   // get user by id
   @Get('/users/:id')
   @ApiResponse({ status: 200, type: User })
-  getUser(@Param('id') id: string): User {
+  getUser(@Param('id') id: string) {
     return this.appService.getUser(id);
   }
 

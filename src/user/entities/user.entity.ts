@@ -2,17 +2,13 @@
 
 import { ApiProperty } from '@nestjs/swagger';
 
-//@Entity()
 export class User {
-  //@Column()
   @ApiProperty()
-  id?: string;
+  id: string;
 
-  //@Column()
   @ApiProperty()
   name: string;
 
-  //@Column({ unique: true })
   @ApiProperty()
   email?: string;
 
@@ -21,4 +17,7 @@ export class User {
 
   @ApiProperty()
   cep?: string;
+
+  @ApiProperty()
+  created_at: string;
 }
