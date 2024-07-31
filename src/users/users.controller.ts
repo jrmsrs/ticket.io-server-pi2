@@ -26,6 +26,7 @@ export class UsersController {
     if (email) return this.appService.findOneByEmail(email);
 
     return this.appService.findAll();
+
   }
 
   @Post('/user')
