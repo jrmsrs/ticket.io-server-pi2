@@ -24,13 +24,23 @@ export class UsersService {
     };
   }
 
-  async findOne(id: string) {
+  async findOneById(id: string) {
     const { data, error } = await sb.from('user').select().eq('id', id);
 
     if (error) throw new Error(error.message);
     return {
       message: 'dados do user',
-      results: data,
+      results: data[0],
+    };
+  }
+
+  async findOneByEmail(email: string) {
+    const { data, error } = await sb.from('user').select().eq('email', email);
+
+    if (error) throw new Error(error.message);
+    return {
+      message: 'dados do user',
+      results: data[0],
     };
   }
 
