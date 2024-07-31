@@ -6,11 +6,12 @@ import {
   Post,
   Put,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
 import { Message } from './entities/message.entity';
-import { ApiTags, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiResponse, ApiQuery } from '@nestjs/swagger';
 import { CreateUserDTO } from './dto/user.dto';
 
 @ApiTags('Users')
@@ -19,9 +20,13 @@ export class UsersController {
   constructor(private readonly appService: UsersService) {}
 
   @Get('/user')
+  @ApiQuery({ name: 'email', required: false, type: String })
   @ApiResponse({ status: 200, isArray: true, type: User })
-  async getUsers() {
-    return this.appService.findAll(); // handle in user.service
+  async getUsers(@Query('email') email?: string) {
+    if (email) return this.appService.findOneByEmail(email);
+
+    return this.appService.findAll();
+
   }
 
   @Post('/user')
@@ -32,8 +37,8 @@ export class UsersController {
 
   @Get('/user/:id')
   @ApiResponse({ status: 200, type: User })
-  async getUser(@Param('id') id: string) {
-    return this.appService.findOne(id);
+  async getUserById(@Param('id') id: string) {
+    return this.appService.findOneById(id);
   }
 
   @Put('/user/:id')
