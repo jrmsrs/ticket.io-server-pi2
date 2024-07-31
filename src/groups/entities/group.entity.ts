@@ -10,13 +10,7 @@ export class Group {
   name: string;
 
   @ApiProperty()
-  email?: string;
-
-  @ApiProperty()
-  cpf: string;
-
-  @ApiProperty()
-  cep?: string;
+  manager?: string;
 
   @ApiProperty()
   created_at: string;

@@ -45,7 +45,10 @@ export class UsersService {
   }
 
   async update(id: string, upData: CreateUserDTO) {
-    const { count, error } = await sb.from('user').update(upData).eq('id', id);
+    const { count, error } = await sb
+      .from('user')
+      .update(upData, { count: 'exact' })
+      .eq('id', id);
 
     if (error) throw new Error(error.message);
     if (!count) throw new Error('user não existe');
@@ -56,7 +59,10 @@ export class UsersService {
   }
 
   async remove(id: string) {
-    const { error, count } = await sb.from('user').delete().eq('id', id);
+    const { error, count } = await sb
+      .from('user')
+      .delete({ count: 'exact' })
+      .eq('id', id);
 
     if (error) throw new Error(error.message);
     if (!count) throw new Error('user não existe');

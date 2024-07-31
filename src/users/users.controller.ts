@@ -11,7 +11,7 @@ import {
 import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
 import { Message } from './entities/message.entity';
-import { ApiTags, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiResponse, ApiQuery } from '@nestjs/swagger';
 import { CreateUserDTO } from './dto/user.dto';
 
 @ApiTags('Users')
@@ -20,8 +20,9 @@ export class UsersController {
   constructor(private readonly appService: UsersService) {}
 
   @Get('/user')
+  @ApiQuery({ name: 'email', required: false, type: String })
   @ApiResponse({ status: 200, isArray: true, type: User })
-  async getUsers(@Query('email') email: string) {
+  async getUsers(@Query('email') email?: string) {
     if (email) return this.appService.findOneByEmail(email);
 
     return this.appService.findAll();

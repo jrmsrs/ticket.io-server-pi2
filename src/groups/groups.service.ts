@@ -15,12 +15,25 @@ export class GroupsService {
   }
 
   async create(group: CreateGroupDTO) {
-    const { data, error } = await sb.from('group').insert(group).select();
+    const createGroupData = { ...group };
+    delete createGroupData.users;
+    const groupRes = await sb.from('group').insert(createGroupData).select();
+    if (groupRes.error) throw new Error(groupRes.error.message);
 
-    if (error) throw new Error(error.message);
+    const createGroupUserData = group.users.map((userId) => ({
+      group_id: groupRes.data[0].id,
+      user_id: userId,
+    }));
+    const groupUserRes = await sb
+      .from('group_user')
+      .insert(createGroupUserData)
+      .select();
+    if (groupUserRes.error) throw new Error(groupUserRes.error.message);
+
     return {
-      message: ' grupo solucionador inserido',
-      id: data[0].id,
+      message: 'grupo solucionador inserido',
+      id: groupRes.data[0].id,
+      users: createGroupUserData,
     };
   }
 
@@ -58,10 +71,35 @@ export class GroupsService {
   }
 
   async update(id: string, upData: CreateGroupDTO) {
-    const { count, error } = await sb.from('group').update(upData).eq('id', id);
+    const updateGroupData = { ...upData };
+    delete updateGroupData.users;
 
-    if (error) throw new Error(error.message);
-    if (!count) throw new Error('grupo solucionador não existe');
+    const groupRes = await sb
+      .from('group')
+      .update(updateGroupData, { count: 'exact' })
+      .eq('id', id);
+
+    if (groupRes.error) throw new Error(groupRes.error.message);
+    if (!groupRes.count) throw new Error('grupo solucionador não existe');
+
+    const updateGroupUserData = upData.users.map((userId) => ({
+      group_id: id,
+      user_id: userId,
+    }));
+
+    await sb
+      .from('group_user')
+      .delete()
+      .eq('group_id', id)
+      .then((res) => {
+        if (res.error) throw new Error(res.error.message);
+      });
+
+    const groupUserRes = await sb
+      .from('group_user')
+      .insert(updateGroupUserData)
+      .select();
+    if (groupUserRes.error) throw new Error(groupUserRes.error.message);
 
     return {
       message: `grupo solucionador com ID=${id} alterado com sucesso.`,
@@ -69,7 +107,10 @@ export class GroupsService {
   }
 
   async remove(id: string) {
-    const { error, count } = await sb.from('group').delete().eq('id', id);
+    const { error, count } = await sb
+      .from('group')
+      .delete({ count: 'exact' })
+      .eq('id', id);
 
     if (error) throw new Error(error.message);
     if (!count) throw new Error('grupo solucionador não existe');

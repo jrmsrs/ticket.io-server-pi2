@@ -11,7 +11,7 @@ import {
 import { GroupsService } from './groups.service';
 import { Group } from './entities/group.entity';
 import { Message } from './entities/message.entity';
-import { ApiTags, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiResponse, ApiQuery } from '@nestjs/swagger';
 import { CreateGroupDTO } from './dto/group.dto';
 
 @ApiTags('Groups')
@@ -32,6 +32,8 @@ export class GroupsController {
   }
 
   @Get('/group/:id')
+  @ApiQuery({ name: 'issues', required: false, type: String })
+  @ApiQuery({ name: 'members', required: false, type: String })
   @ApiResponse({ status: 200, type: Group })
   async getGroupById(
     @Param('id') id: string,

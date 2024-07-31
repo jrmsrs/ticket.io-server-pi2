@@ -4,12 +4,9 @@ export class CreateGroupDTO {
   @ApiProperty()
   name: string;
 
-  @ApiProperty()
-  email: string;
-
-  @ApiProperty()
-  cpf: string;
-
   @ApiProperty({ required: false })
-  cep?: string;
+  manager: string;
+
+  @ApiProperty({ isArray: true })
+  users: string[];
 }
