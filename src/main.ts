@@ -27,6 +27,8 @@ Todo:
     .setVersion('1.0')
     .addTag('Users', 'CRUD de Usuário')
     .addTag('Groups', 'CRUD de Grupo Solucionador')
+    .addTag('TPs', 'CRUD de Ticket de Problema')
+    .addTag('Solutions', 'CRUD de Soluções de Causa-Raiz')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
