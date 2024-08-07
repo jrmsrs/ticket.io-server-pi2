@@ -25,12 +25,16 @@ export class SolutionsService {
   }
 
   async findOneById(id: string) {
-    const { data, error } = await sb.from('solution').select().eq('id', id);
+    const solutionRes = await sb.from('solution').select().eq('id', id);
+    if (solutionRes.error) throw new Error(solutionRes.error.message);
 
-    if (error) throw new Error(error.message);
+    const issueRes = await sb.from('tp').select('id').eq('solution', id);
+    if (issueRes.error) throw new Error(issueRes.error.message);
+
     return {
       message: 'dados da solution',
-      results: data[0],
+      results: solutionRes.data[0],
+      issues: issueRes.data.map((a) => a.id),
     };
   }
 
