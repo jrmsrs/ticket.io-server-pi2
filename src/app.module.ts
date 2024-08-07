@@ -9,6 +9,8 @@ import { TPsController } from './tps/tps.controller';
 import { TPsService } from './tps/tps.service';
 import { SolutionsController } from './solutions/solutions.controller';
 import { SolutionsService } from './solutions/solutions.service';
+import { ReportsController } from './reports/reports.controller';
+import { ReportsService } from './reports/reports.service';
 
 @Module({
   imports: [],
@@ -18,6 +20,7 @@ import { SolutionsService } from './solutions/solutions.service';
     GroupsController,
     TPsController,
     SolutionsController,
+    ReportsController,
   ],
   providers: [
     AppService,
@@ -25,6 +28,7 @@ import { SolutionsService } from './solutions/solutions.service';
     GroupsService,
     TPsService,
     SolutionsService,
+    ReportsService,
   ],
 })
 export class AppModule {}
