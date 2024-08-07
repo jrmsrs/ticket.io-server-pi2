@@ -4,7 +4,7 @@ import {
   Controller,
   Get,
   Post,
-  Put,
+  Patch,
   Delete,
   Query,
 } from '@nestjs/common';
@@ -46,7 +46,7 @@ export class GroupsController {
     return this.appService.findOneById(id);
   }
 
-  @Put('/group/:id')
+  @Patch('/group/:id')
   @ApiResponse({ status: 200, type: Message })
   async updateGroup(@Param('id') id: string, @Body() group: CreateGroupDTO) {
     return this.appService.update(id, group);

@@ -4,7 +4,7 @@ import {
   Controller,
   Get,
   Post,
-  Put,
+  Patch,
   Delete,
   Query,
 } from '@nestjs/common';
@@ -41,7 +41,7 @@ export class UsersController {
     return this.appService.findOneById(id);
   }
 
-  @Put('/user/:id')
+  @Patch('/user/:id')
   @ApiResponse({ status: 200, type: Message })
   async updateUser(@Param('id') id: string, @Body() user: CreateUserDTO) {
     return this.appService.update(id, user);

@@ -4,7 +4,7 @@ import {
   Controller,
   Get,
   Post,
-  Put,
+  Patch,
   Delete,
   Query,
 } from '@nestjs/common';
@@ -37,7 +37,7 @@ export class SolutionsController {
     return this.appService.findOneById(id);
   }
 
-  @Put('/solution/:id')
+  @Patch('/solution/:id')
   @ApiResponse({ status: 200, type: Message })
   async updateUser(@Param('id') id: string, @Body() user: CreateSolutionDto) {
     return this.appService.update(id, user);
