@@ -1,11 +1,11 @@
-## MEDIÇÕES DO SLA
+## 1ª Medição dos Testes de Carga
 
 Serviço utilizado: k6 (https://k6.io/)
 
 Gerenciamento de Usuários
 * Tipo de operações: leitura / inserção
 * Arquivos envolvidos: [users.controller.ts](src/users/users.controller.ts), [users.service.ts](src/users/users.service.ts)
-* Arquivos com o código fonte de medição do SLA: [get-user.js](load-test/scenarios/get-user.js), [post-user.js](load-test/scenarios/post-user.js)
+* Arquivos com o código fonte de medição do SLA: [get-user.js](load-test-1/scenarios/get-user.js), [post-user.js](load-test-1/scenarios/post-user.js)
 * Data da medição: 07/08/2024
 * Descrição das configurações (máquinas/containers utilizadas para o sistema funcionar, ...):
   - Cliente React: Nuvem Vercel
@@ -17,11 +17,12 @@ Gerenciamento de Usuários
   - Concorrência: Suportou bem gradualmente a carga até 200 usuários simultâneos (VUs). Alguns picos de latência indicam que o desempenho pode ser afetado em situações de carga extrema.
 * Potenciais gargalos do sistema: 
   - A latência média de 680ms para leitura de usuários pode ser um gargalo para o sistema, principalmente em situações de carga extrema. A inserção de usuários, por outro lado, apresentou uma latência média de 328ms, o que é um valor aceitável para a maioria dos casos.
+  - Apenas 29.41% das requisições de inserção de usuários foram bem-sucedidas, acreditamos que seja apenas um problema com a abordagem de inserção que causaram colisões de e-mail e CPF que são campos únicos.
 
 Gerenciamento de Relatórios
 * Tipo de operações: leitura / inserção
 * Arquivos envolvidos: [reports.controller.ts](src/reports/reports.controller.ts), [reports.service.ts](src/reports/reports.service.ts)
-* Arquivos com o código fonte de medição do SLA: [get-report.js](load-test/scenarios/get-report.js), [post-report.js](load-test/scenarios/post-report.js)
+* Arquivos com o código fonte de medição do SLA: [get-report.js](load-test-1/scenarios/get-report.js), [post-report.js](load-test-1/scenarios/post-report.js)
 * Data da medição: 07/08/2024
 * Descrição das configurações (máquinas/containers utilizadas para o sistema funcionar, ...):
   - (mesmo cliente e servidor)
